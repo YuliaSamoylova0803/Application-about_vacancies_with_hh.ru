@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 class Parser(ABC):
     """Абстрактный класс для работы с API сервиса с вакансиями"""
+
     @abstractmethod
     def _load_vacancies(self):
         """Метод отправки get-запроса на сайт Head Hunter"""
@@ -16,7 +17,7 @@ class HeadHunterAPI(Parser):
         """Магический метод инициализаций объектов для отправки get-запроса"""
         self._url = "https://api.hh.ru/vacancies"
         self._headers = {"User-Agent": "HH-User-Agent"}
-        self.params = {'text': '', 'page': 0, 'per_page': 100}
+        self.params = {"text": '', "page": 0, "per_page": 100}
         self.vacancies = []
 
     def _load_vacancies(self, keyword):
