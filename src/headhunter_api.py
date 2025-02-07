@@ -1,4 +1,6 @@
 import json
+from typing import Any
+
 import requests
 from abc import ABC, abstractmethod
 
@@ -20,7 +22,7 @@ class HeadHunterAPI(Parser):
         self.params = {"text": '', "page": 0, "per_page": 100}
         self.vacancies = []
 
-    def _load_vacancies(self, keyword):
+    def _load_vacancies(self, keyword) -> Any:
         """Метод отправки get-запроса на сайт Head Hunter"""
         self.params["text"] = keyword
         while self.params.get("page") != 20:
