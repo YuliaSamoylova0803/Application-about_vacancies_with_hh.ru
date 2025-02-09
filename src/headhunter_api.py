@@ -25,7 +25,7 @@ class HeadHunterAPI(Parser):
     def _load_vacancies(self, keyword) -> Any:
         """Метод отправки get-запроса на сайт Head Hunter"""
         self.params["text"] = keyword
-        while self.params.get("page") != 20:
+        while self.params.get("page") != 10:
             response = requests.get(self._url, headers=self._headers, params=self.params)
             vacancies = response.json()["items"]
             self.vacancies.extend(vacancies)
