@@ -4,23 +4,17 @@ from src.saver import JSONSaver
 
 class Vacancy:
     """Класс для работы с вакансиями"""
-    __slots__ = ("name", "city", "salary", "description", "currency", "responsibility", "url")
-    name: str
-    city: str
-    salary: int
-    description: str
+    __slots__ = ("name", "city", "salary", "currency", "responsibility", "_url")
 
-    def __init__(self, name, city, salary, description, currency, responsibility, url):
+    def __init__(self, name, city, salary, currency, responsibility, url):
 
         # Атрибуты класса Vacancy
         self.name = name
         self.city = city
         self.salary = self.check_salary(salary)
-        self.description = description
         self.currency = currency
         self.responsibility = self.check(responsibility)
         self._url = url
-        #self.getting_vacancy_data()
 
     @staticmethod
     def check(value):
@@ -42,13 +36,13 @@ class Vacancy:
         :return:
         """
         if isinstance(value, dict):
-            if value['from'] is None:
-                return int(value['to'])
+            if value["from"] is None:
+                return int(value["to"])
 
-            elif value['to'] is None:
-                return int(value['from'])
+            elif value["to"] is None:
+                return int(value["from"])
             else:
-                return (int(value['from']) + int(value['to'])) / 2
+                return (int(value["from"]) + int(value["to"])) / 2
         else:
             return 0
 
@@ -60,17 +54,17 @@ class Vacancy:
 
             vacancies_list = []
             for i in data_from_hh:
-                if i['salary'] is None:
+                if i["salary"] is None:
                     currency = ''
                 else:
-                    currency = i['salary']['currency']
+                    currency = i["salary"]["currency"]
 
-                vacancies_list.append(cls(name=i['name'],
-                                          city=i['area']['name'],
-                                          responsibility=i['snippet']['responsibility'],
-                                          salary=i['salary'],
+                vacancies_list.append(cls(name=i["name"],
+                                          city=i["area"]["name"],
+                                          responsibility=i["snippet"]["responsibility"],
+                                          salary=i["salary"],
                                           currency=currency,
-                                          url=i['alternate_url']))
+                                          url=i["alternate_url"]))
 
             if len(vacancies_list) == 0 or vacancies_list is None:
                 return f"Неверный формат данных"
@@ -92,7 +86,23 @@ class Vacancy:
 
         return self.salary > other.salary
 
+    def __str__(self):
+        if self.salary == 0:
+            self.salary = f"Зарплата не указана"
+        return (f"Название вакансии: {self.name}\n"
+                f"Город: {self.city}\n"
+                f"Обязанности: {self.responsibility}\n"
+                f"Зарплата: {self.salary} {self.currency}\n"
+                f"Ссылка: {self._url}\n")
 
+    def __repr__(self):
+        """
+        Отображение информации о класса для разработчика
+        :return:
+        """
+        return (
+            f'Имя класса: {self.__class__.__name__}. Атрибуты класса: ({self.name}, {self.city}, '
+            f'{self.responsibility}, {self.salary}, {self._url})\n')
 
 
 if __name__ == "__main__":
