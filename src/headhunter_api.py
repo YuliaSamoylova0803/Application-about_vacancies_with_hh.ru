@@ -33,10 +33,12 @@ class HeadHunterAPI(Parser):
         return self.vacancies
 
 
+
 if __name__ == "__main__":
     hh_api = HeadHunterAPI()
     print(hh_api)
     # Получение вакансий с hh.ru в формате JSON
     hh_vacancies = hh_api._load_vacancies("Python")
     print(hh_vacancies)
+
 
