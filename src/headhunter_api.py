@@ -1,8 +1,8 @@
-import json
+from abc import ABC, abstractmethod
 from typing import Any
 
 import requests
-from abc import ABC, abstractmethod
+
 
 class Parser(ABC):
     """Абстрактный класс для работы с API сервиса с вакансиями"""
@@ -12,6 +12,7 @@ class Parser(ABC):
         """Метод отправки get-запроса на сайт Head Hunter"""
         pass
 
+
 class HeadHunterAPI(Parser):
     """Класс для работы с API HeadHunter"""
 
@@ -19,7 +20,7 @@ class HeadHunterAPI(Parser):
         """Магический метод инициализаций объектов для отправки get-запроса"""
         self._url = "https://api.hh.ru/vacancies"
         self._headers = {"User-Agent": "HH-User-Agent"}
-        self.params = {"text": '', "page": 0, "per_page": 100}
+        self.params = {"text": "", "page": 0, "per_page": 100}
         self.vacancies = []
 
     def _load_vacancies(self, keyword) -> Any:
@@ -33,12 +34,9 @@ class HeadHunterAPI(Parser):
         return self.vacancies
 
 
-
 if __name__ == "__main__":
     hh_api = HeadHunterAPI()
     print(hh_api)
     # Получение вакансий с hh.ru в формате JSON
     hh_vacancies = hh_api._load_vacancies("Python")
     print(hh_vacancies)
-
-
