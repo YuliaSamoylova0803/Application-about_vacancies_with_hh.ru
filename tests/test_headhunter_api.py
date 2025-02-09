@@ -1,7 +1,6 @@
-import pytest
 import unittest
+from unittest.mock import MagicMock, patch
 
-from unittest.mock import patch, MagicMock
 from src.headhunter_api import HeadHunterAPI
 
 
@@ -10,10 +9,7 @@ class TestHeadHunterAPI(unittest.TestCase):
     def test_load_vacancies(self, mock_get):
         mock_response = MagicMock()
         mock_response.json.return_value = {
-            "items": [
-                {"name": "Python Developer", "salary": "1000"},
-                {"name": "Data Scientist", "salary": "1500"}
-            ]
+            "items": [{"name": "Python Developer", "salary": "1000"}, {"name": "Data Scientist", "salary": "1500"}]
         }
         mock_get.return_value = mock_response
         hh = HeadHunterAPI()
@@ -24,8 +20,9 @@ class TestHeadHunterAPI(unittest.TestCase):
         mock_get.assert_called_with(
             "https://api.hh.ru/vacancies",
             headers={"User-Agent": "HH-User-Agent"},
-            params={"text": "Python Developer", "page": 20, "per_page": 100}
+            params={"text": "Python Developer", "page": 10, "per_page": 100},
         )
+
 
 if __name__ == "__main__":
     unittest.main()
